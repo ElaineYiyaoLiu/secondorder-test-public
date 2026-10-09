@@ -1,0 +1,12 @@
+{
+  "rankings": "164f02ad5ef8c7547b836ebf968f3cb51306606b66f38bf43d61d1de63c5b907",
+  "targets": {
+    "euclidean": "4b3c7a15af09f5ef54afe64073d91026c9eb3f1a1f86d3bd35833e4e1834a07a",
+    "dtw": "d1d2143606d017810462fe9d13e6e54a6473d348bcd34ae48a855776021912a1",
+    "correlation": "f5bacbaff0777fbccf320f7e5b28009f40b9a54044fcc121a99936d85a5df593",
+    "riemannian": "6a84d8297641184e74f89576af901fc2df9ef7aebb9a3f94eb5b3a24bc66522d",
+    "topology": "1007f39aa3a4192d6f58ec42ad4fdd4de33e03e8531cbde0381e839f25f9acfe",
+    "ultrametric": "1695b35eda9e314970fca3951f1dc813667626f7151cee697ba1d2f324ed0cc3",
+    "signature": "5caf2c51375aaccc33543b5b6db394ffa9a3301c29f79569a264c00cf889311d"
+  }
+}

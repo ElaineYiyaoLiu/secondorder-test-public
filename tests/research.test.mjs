@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {interactiveDataset} from '../public/data.js';
+import {makeEngine} from '../public/engine.js';
+import {researchStructure,persistenceSummary} from '../public/research-engine.js';
+import {graph,landscape,persistence} from '../public/research-plots.js';
+import {validateStudy} from '../public/validation-study.js';
+const data=interactiveDataset('NVDA',180),args={dataset:data,symbol:'NVDA',start:150,end:179};
+test('structure exactly matches the historical search target and each scale at its close',()=>{const r=researchStructure(args),engine=makeEngine(data,'NVDA');assert.deepEqual(r.selected,engine.homology(150,179).target);for(const w of [20,60,120]){const t=engine.topology(180-w,179);for(const c of ['linear','rank'])for(const k of [0,1])assert.equal(r.timeline.at(-1).scales[w].channels[c][k].energy,persistenceSummary(t[c][k]).energy);}assert.equal(r.timeline.at(-1).date,data.NVDA[179].date);});
+test('rolling plots cannot see observations after the selected end',()=>{const full=interactiveDataset('NVDA',220),a=researchStructure({dataset:full,symbol:'NVDA',start:150,end:179}),prefix=Object.fromEntries(Object.entries(full).map(([s,rs])=>[s,rs.slice(0,180)]));assert.deepEqual(a,researchStructure({dataset:prefix,symbol:'NVDA',start:150,end:179}));});
+test('empty diagrams and first differences remain mathematically distinct from unavailable values',()=>{assert.equal(persistenceSummary([]).energy,0);assert.equal(persistenceSummary([]).entropy,0);assert.equal(persistenceSummary([]).velocity,null);assert.equal(persistenceSummary([],[]).velocity,0);assert.equal(persistenceSummary([[0,1]],[]).velocity,.5);assert.match(landscape([],false),/First persistence landscape/);assert.match(persistence([],1,1,false),/No finite persistence classes/);});
+test('network fills triangles and reports Betti values at the same filtration threshold',()=>{const d=[[0,1,1],[1,0,1],[1,1,0]],s={symbols:['A','B','C'],linearDistances:d,linear:[[[0,1],[0,1]],[]]};assert.match(graph(s,'linear',1,'A',false),/Triangles <b>1<\/b>/);assert.match(graph(s,'linear',1,'A',false),/β₁ <b>0<\/b>/);assert.match(graph(s,'linear',.5,'A',false),/β₀ <b>3<\/b>/);});
+test('common-origin validation leaves empty cohorts unscored',async()=>{const r=await validateStudy(makeEngine({NVDA:data.NVDA},'NVDA'));assert.equal(r.study.commonCount,0);assert.equal(r.study.baseline,null);assert.ok(r.study.methods.every(m=>m.mae===null&&m.delta===null));});
+test('all retrieval variants obey per-horizon past-only availability',()=>{const ds=interactiveDataset('NVDA',500),e=makeEngine(ds,'NVDA');for(const retrieval of ['topology','h0','h1','correlation']){const r=e.homology(470,499,6,{retrieval,stability:false});for(const c of r.cohorts)assert.ok(c.matches.every(m=>m.end+c.h<470));}assert.throws(()=>e.homology(470,499,6,{retrieval:'unknown'}));});
