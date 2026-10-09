@@ -43,3 +43,14 @@
 @media(max-width:1100px){.selection-layout{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:850px){.supporting-grid #analysis-cards{grid-template-columns:minmax(0,1fr)}.research-grid>.panel,.research-panel,#research-structure>.panel{padding:18px}.selection-layout>.panel{padding:18px}}
 @media(max-width:560px){.reader-panel dl{grid-template-columns:minmax(0,1fr)}.selection-layout h2{font-size:22px}.research-stats strong{font-size:20px}.structure-controls label{max-width:100%;flex-wrap:wrap}.research-title-actions select{width:100%;min-width:0}.research-title-actions label{max-width:100%}.research-insight{padding:12px 14px}.research-panel{margin-top:16px}}
+
+/* Paired structure views share column widths, plot height and card baselines. */
+.research-grid.structure-pair{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+.structure-pair>.panel{display:flex;flex-direction:column}
+.structure-pair h3{min-height:24px}
+.structure-pair .structure-figure{display:flex;flex-direction:column;margin-bottom:16px;min-width:0}
+.structure-pair .graph-meta{min-height:28px;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.structure-pair .research-network,.structure-pair .research-diagram{display:block;width:100%;height:320px}
+.structure-pair .research-note{margin-top:auto;min-height:64px;line-height:1.7}
+.structure-pair .research-note button{margin-top:8px;font-size:13px;color:var(--blue)}
+@media(max-width:850px){.research-grid.structure-pair{grid-template-columns:minmax(0,1fr)}.structure-pair .research-network,.structure-pair .research-diagram{height:280px}.structure-pair .research-note{min-height:0}}

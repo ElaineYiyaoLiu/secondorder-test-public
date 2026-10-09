@@ -16,7 +16,7 @@ export function persistence(diagram,dimension,epsilon,zh){
  body+=`<line x1="${x(epsilon)}" y1="280" x2="${x(epsilon)}" y2="40" stroke="#819ba9" stroke-dasharray="3 3"/><line x1="45" y1="${y(epsilon)}" x2="285" y2="${y(epsilon)}" stroke="#819ba9" stroke-dasharray="3 3"/>`;
  body+=diagram.map(([b,d])=>`<circle cx="${x(b)}" cy="${y(d)}" r="${b<=epsilon&&d>epsilon?5:3.5}" fill="${dimension?'#9c6445':'#315b99'}"><title>H${dimension}: ${b.toFixed(5)} → ${d.toFixed(5)}</title></circle>`).join('');
  body+=`<text x="45" y="300" font-size="11">0</text><text x="280" y="300" font-size="11">2</text><text x="29" y="45" font-size="11">2</text><text x="160" y="322" text-anchor="middle" font-size="12">${zh?'出生':'Birth'}</text><text x="10" y="170" transform="rotate(-90,10,170)" font-size="12">${zh?'死亡':'Death'}</text>`;
- if(!diagram.length)body+=`<text x="165" y="145" text-anchor="middle" fill="#667b8d" font-size="12">${zh?'没有有限持久类':'No finite persistence classes'}</text>`;
+ if(!diagram.length)body+=`<rect x="58" y="125" width="218" height="34" rx="4" fill="white"/><text x="165" y="145" text-anchor="middle" fill="#667b8d" font-size="12">${zh?'没有有限持久类':'No finite persistence classes'}</text>`;
  return svg(body,zh?'持久图':'Persistence diagram','0 0 330 335','research-diagram');
 }
 export function landscape(diagram,zh){
