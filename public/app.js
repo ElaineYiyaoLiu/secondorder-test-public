@@ -9,7 +9,7 @@ import {GEOMETRIES,ANALYSIS_IDS,makeEngine,mean} from './engine.js';
 const $=id=>document.getElementById(id),escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let lang='en';
 const requestedLanguage=new URLSearchParams(location.search).get('lang');if(['zh','en'].includes(requestedLanguage))lang=requestedLanguage;
-let symbol='NVDA',dataset={},source='pending',dataReady=false,windowSize=63,offset=0,active=0,start=0,end=0,result=null,analysis=null,chosen=0,horizon=20,lab=null,worker=null,busy=false,busyIds=[],taskRunning=null,providerLoading=false,providerInfo=null,datasetRevision=0;
+let symbol='NVDA',dataset={},source='pending',dataReady=false,windowSize=126,offset=0,active=0,start=0,end=0,result=null,analysis=null,chosen=0,horizon=20,lab=null,worker=null,busy=false,busyIds=[],taskRunning=null,providerLoading=false,providerInfo=null,datasetRevision=0;
 const selected=new Set(GEOMETRIES.map(g=>g.id)),t=(en,zh)=>lang==='zh'?zh:en;
 const format=(v,d=2)=>v===null||v===undefined?'N/A':(v>=0?'+':'−')+Math.abs(v).toFixed(d)+'%',money=v=>'$'+v.toFixed(2),number=v=>v===null||v===undefined?'N/A':v.toFixed(3);
 let engine=null,rows=[],exportUrl=null;
@@ -127,7 +127,7 @@ async function loadProvider(){
 }
 $('retry-data').onclick=loadProvider;$('return-real').onclick=loadProvider;
 $('history-years').onchange=$('provider-basket').onchange=()=>{if(source==='provider'||source==='pending')loadProvider();};
-$('export').onclick=()=>{if(!analysis&&!result)return;const payload={product:'SecondOrder Test',version:'v0.5',symbol,source,provider:providerInfo?{adjustment:providerInfo.adjustment,requestedYears:providerInfo.requestedYears,actualBars:rows.length}:null,query:{from:rows[start].date,to:rows[end].date},analysis,structure:researchExport(),homology:result,validation:lab};clearExport();const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=$('export-link');exportUrl=URL.createObjectURL(blob);a.href=exportUrl;a.download=`secondorder-test-${symbol}-v0.5.json`;$('export-download').hidden=false;a.click();};
+$('export').onclick=()=>{if(!analysis&&!result)return;const payload={product:'SecondOrder Test',version:'v0.6',symbol,source,provider:providerInfo?{adjustment:providerInfo.adjustment,requestedYears:providerInfo.requestedYears,actualBars:rows.length}:null,query:{from:rows[start].date,to:rows[end].date},analysis,structure:researchExport(),homology:result,validation:lab};clearExport();const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=$('export-link');exportUrl=URL.createObjectURL(blob);a.href=exportUrl;a.download=`secondorder-test-${symbol}-v0.6.json`;$('export-download').hidden=false;a.click();};
 function syncMethodLanguage(){const frame=$('method-frame'),url='/method.html?embedded=1&lang='+lang;if(frame.dataset.url!==url){frame.dataset.url=url;frame.src=url;}frame.title=t('Method and evidence','方法与证据');}
 function showMethod(show){$('workspace-view').hidden=show;$('method-view').hidden=!show;$('open-method').setAttribute('aria-pressed',String(show));if(show)syncMethodLanguage();}
 $('open-method').onclick=()=>showMethod(true);$('close-method').onclick=()=>showMethod(false);

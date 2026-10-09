@@ -64,7 +64,7 @@ test('Shift-dragging selects analysis dates while ordinary dragging browses hist
  const w=workspace();w.resolve({ok:true,json:async()=>({source:'marketstack',dataset:interactiveDataset(),adjustment:'all'})});await settle();
  const chart=w.get('candles');chart.focus=()=>{};chart.getBoundingClientRect=()=>({left:0,width:900});chart.setPointerCapture=()=>{};chart.hasPointerCapture=()=>false;
  chart.onpointerdown({button:0,pointerId:1,clientX:220,shiftKey:true});chart.onpointermove({pointerId:1,clientX:620});chart.onpointerup({pointerId:1});
- const bounds=vm.runInContext('({start,end,windowSize,offset})',w.context);assert.ok(bounds.end>bounds.start);assert.equal(w.get('from').value,bounds.start);assert.equal(w.get('to').value,bounds.end);assert.equal(bounds.windowSize,63);assert.equal(bounds.offset,0);
+ const bounds=vm.runInContext('({start,end,windowSize,offset})',w.context);assert.ok(bounds.end>bounds.start);assert.equal(w.get('from').value,bounds.start);assert.equal(w.get('to').value,bounds.end);assert.equal(bounds.windowSize,126);assert.equal(bounds.offset,0);
 });
 test('default dragging browses chart history without changing the analysis period',async()=>{
  const w=workspace();w.resolve({ok:true,json:async()=>({source:'marketstack',dataset:interactiveDataset(),adjustment:'all'})});await settle();
