@@ -60,9 +60,15 @@ test('Method opens before data loads, follows language, and returns to the prese
  vm.runInContext("lang='zh';render()",w.context);assert.equal(w.get('method-frame').src,'/method.html?embedded=1&lang=zh');
  w.get('close-method').click();assert.equal(w.get('workspace-view').hidden,false);assert.equal(w.get('method-view').hidden,true);assert.equal(w.get('data-workspace').hidden,true);
 });
-test('direct candle-chart dragging selects analysis dates without a timeline interaction',async()=>{
+test('Shift-dragging selects analysis dates while ordinary dragging browses history',async()=>{
  const w=workspace();w.resolve({ok:true,json:async()=>({source:'marketstack',dataset:interactiveDataset(),adjustment:'all'})});await settle();
  const chart=w.get('candles');chart.focus=()=>{};chart.getBoundingClientRect=()=>({left:0,width:900});chart.setPointerCapture=()=>{};chart.hasPointerCapture=()=>false;
- chart.onpointerdown({button:0,pointerId:1,clientX:220,shiftKey:false});chart.onpointermove({pointerId:1,clientX:620});chart.onpointerup({pointerId:1});
+ chart.onpointerdown({button:0,pointerId:1,clientX:220,shiftKey:true});chart.onpointermove({pointerId:1,clientX:620});chart.onpointerup({pointerId:1});
  const bounds=vm.runInContext('({start,end,windowSize,offset})',w.context);assert.ok(bounds.end>bounds.start);assert.equal(w.get('from').value,bounds.start);assert.equal(w.get('to').value,bounds.end);assert.equal(bounds.windowSize,63);assert.equal(bounds.offset,0);
+});
+test('default dragging browses chart history without changing the analysis period',async()=>{
+ const w=workspace();w.resolve({ok:true,json:async()=>({source:'marketstack',dataset:interactiveDataset(),adjustment:'all'})});await settle();
+ const before=vm.runInContext('({start,end,offset})',w.context),chart=w.get('candles');chart.focus=()=>{};chart.getBoundingClientRect=()=>({left:0,width:900});chart.setPointerCapture=()=>{};chart.hasPointerCapture=()=>false;
+ chart.onpointerdown({button:0,pointerId:1,clientX:220,shiftKey:false});chart.onpointermove({pointerId:1,clientX:620});chart.onpointerup({pointerId:1});
+ const after=vm.runInContext('({start,end,offset,chartMode})',w.context);assert.equal(after.chartMode,'pan');assert.ok(after.offset>before.offset);assert.equal(after.start,before.start);assert.equal(after.end,before.end);
 });
