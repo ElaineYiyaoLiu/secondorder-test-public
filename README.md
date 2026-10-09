@@ -1,6 +1,6 @@
 This is SecondOrder Test, a bilingual market research workspace built around persistent homology.
 
-Version: **v0.1**.
+Version: **v0.4**.
 
 Structure shows the selected basket's filtration network, finite H₀/H₁ diagrams, barcodes, first persistence landscape and rolling structural changes. Historical analogues retrieves earlier windows with the same asset set. Validation compares topology, H₀-only, H₁-only and labelled correlation retrieval on common scored dates. Seven supporting observations describe relationships, risk, scales, price paths, distributions, candles and price–volume order.
 
@@ -16,7 +16,7 @@ npm run dev
 
 Node 22 or later. Numerical calculations run in cancellable module workers. Exports include source, adjustment, selected diagrams, rolling profiles, historical cohorts and validation records.
 
-Development: `secondorder-test-private/v0.1`. Public mirror: `secondorder-test-public/main`. Production: https://test.secondorder.tools, embedded at https://secondorder.tools/test.
+Development: `secondorder-test-private/v0.4`. Public mirror: `secondorder-test-public/main`. Production: https://test.secondorder.tools, embedded at https://secondorder.tools/test.
 
 Test is independent of Stock v0.22 and Homology v0.4. Their repositories and deployments are preserved. Useful chart forms from earlier Homology releases are recomputed from the current basket; the unavailable 30-stock fitted forecasts are not used. Archived Stock engines remain in source for inherited numerical regression tests and are excluded from the production build.
 

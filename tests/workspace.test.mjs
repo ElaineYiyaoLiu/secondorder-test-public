@@ -50,3 +50,19 @@ test('brief explanations preserve unavailable results and distinguish intraday b
  const text=candleContext({close:105,volume:200},{close:110},[{volume:100}],'zh');assert.match(text,/下跌 4.55%/);assert.match(text,/2.00 倍/);
  assert.match(homologyReading({matches:[{}],divergent:true},20,'zh'),/有些上涨，有些下跌/);
 });
+test('loading status stays in the selected language while the provider request is pending',()=>{
+ const w=workspace();assert.match(w.get('data-summary').textContent,/about 6 seconds/);assert.doesNotMatch(w.get('message').textContent,/[\u3400-\u9fff]/);
+ vm.runInContext("lang='zh';render()",w.context);assert.match(w.get('data-summary').textContent,/大约需要 6 秒/);
+ vm.runInContext("lang='en';render()",w.context);assert.match(w.get('data-summary').textContent,/about 6 seconds/);assert.doesNotMatch(w.get('data-summary').textContent,/[\u3400-\u9fff]/);
+});
+test('Method opens before data loads, follows language, and returns to the preserved workspace',()=>{
+ const w=workspace();w.get('open-method').click();assert.equal(w.get('workspace-view').hidden,true);assert.equal(w.get('method-view').hidden,false);assert.equal(w.get('method-frame').src,'/method.html?embedded=1&lang=en');
+ vm.runInContext("lang='zh';render()",w.context);assert.equal(w.get('method-frame').src,'/method.html?embedded=1&lang=zh');
+ w.get('close-method').click();assert.equal(w.get('workspace-view').hidden,false);assert.equal(w.get('method-view').hidden,true);assert.equal(w.get('data-workspace').hidden,true);
+});
+test('direct candle-chart dragging selects analysis dates without a timeline interaction',async()=>{
+ const w=workspace();w.resolve({ok:true,json:async()=>({source:'marketstack',dataset:interactiveDataset(),adjustment:'all'})});await settle();
+ const chart=w.get('candles');chart.focus=()=>{};chart.getBoundingClientRect=()=>({left:0,width:900});chart.setPointerCapture=()=>{};chart.hasPointerCapture=()=>false;
+ chart.onpointerdown({button:0,pointerId:1,clientX:220,shiftKey:false});chart.onpointermove({pointerId:1,clientX:620});chart.onpointerup({pointerId:1});
+ const bounds=vm.runInContext('({start,end,windowSize,offset})',w.context);assert.ok(bounds.end>bounds.start);assert.equal(w.get('from').value,bounds.start);assert.equal(w.get('to').value,bounds.end);assert.equal(bounds.windowSize,63);assert.equal(bounds.offset,0);
+});
