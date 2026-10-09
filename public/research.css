@@ -54,3 +54,16 @@
 .structure-pair .research-note{margin-top:auto;min-height:64px;line-height:1.7}
 .structure-pair .research-note button{margin-top:8px;font-size:13px;color:var(--blue)}
 @media(max-width:850px){.research-grid.structure-pair{grid-template-columns:minmax(0,1fr)}.structure-pair .research-network,.structure-pair .research-diagram{height:280px}.structure-pair .research-note{min-height:0}}
+
+/* Portfolio introduction: purpose and one route into the interactive result. */
+.workflow.portfolio-intro{padding:30px 32px;margin-bottom:28px;background:linear-gradient(115deg,#fff 65%,#f2f5fa);border-top:3px solid var(--copper)}
+.portfolio-intro .eyebrow{font-size:11px;letter-spacing:.14em;margin-bottom:14px}
+.workflow.portfolio-intro h2{font-size:clamp(30px,3.2vw,44px);line-height:1.12;letter-spacing:-.035em;max-width:25ch;margin:0 0 16px;color:var(--navy);font-weight:500}
+.workflow.portfolio-intro .hero-description{font-size:16px;line-height:1.65;max-width:68ch;margin:0;color:var(--ink)}
+.hero-actions{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:24px}
+.hero-actions .primary{padding:11px 18px;min-height:44px;font-weight:600;font-size:14px}
+.hero-status{font-size:12px;color:var(--muted);line-height:1.6}
+.portfolio-intro #retry-data{margin-top:16px}
+.data-options-content .coverage-note{font-size:12px;padding:0;background:none;border:0;line-height:1.65}
+.data-options-content #data-summary{font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}
+@media(max-width:560px){.workflow.portfolio-intro{padding:22px 20px}.workflow.portfolio-intro h2{font-size:30px}.workflow.portfolio-intro .hero-description{font-size:14px}.hero-actions{gap:12px;margin-top:20px}}
