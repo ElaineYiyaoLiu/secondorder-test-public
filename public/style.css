@@ -71,3 +71,8 @@ header .brand.so-brand .so-brand-copy small:empty{display:none}
 
 /* Put each model’s everyday interpretation before its numbers and reading aids. */
 .geometry-card .result-reading{margin:16px 0 20px;padding:16px 18px;background:#edf3f8;border-left:3px solid var(--blue);border-radius:4px;overflow-wrap:anywhere}.reading-label{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px}.geometry-card .result-reading .observation{font-size:17px;line-height:1.7;color:var(--ink);margin:0;font-weight:600}.geometry-card .result-reading .plain-reading{font-size:16px;line-height:1.75;color:var(--ink);margin:10px 0 0}.reading-help{margin-top:20px;padding:16px 18px}.reading-help>summary{cursor:pointer;color:var(--blue);font-size:14px}.reading-help .reading-guide{padding:0;border:0;margin:14px 0}.reading-help .glossary{margin-bottom:0}@media(max-width:560px){.geometry-card .result-reading{padding:14px}.geometry-card .result-reading .observation{font-size:16px}.geometry-card .result-reading .plain-reading{font-size:15px}}
+
+/* Keep the construction status in the title's typography and allow narrow headers to wrap. */
+header .brand.so-brand{white-space:normal;min-width:0}
+header .brand.so-brand .so-brand-copy{white-space:normal;min-width:0;line-height:1.2}
+@media(max-width:640px){header,header.topbar{height:auto;flex-wrap:wrap;gap:10px}header .brand.so-brand{width:100%;max-width:100%}}
