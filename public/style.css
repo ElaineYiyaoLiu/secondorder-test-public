@@ -77,4 +77,4 @@ header .brand.so-brand{white-space:normal;min-width:0}
 header .brand.so-brand .so-brand-copy{white-space:normal;min-width:0;line-height:1.2}
 @media(max-width:640px){header,header.topbar{height:auto;flex-wrap:wrap;gap:10px}header .brand.so-brand{width:100%;max-width:100%}}
 
-.so-construction{font-family:inherit;font-size:.875em;font-weight:400;letter-spacing:inherit}
+header .brand.so-brand .so-brand-copy .so-construction{font-family:inherit;font-size:.875em;font-weight:400;letter-spacing:inherit;margin:0}
