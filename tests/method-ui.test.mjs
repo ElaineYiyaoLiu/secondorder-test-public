@@ -16,6 +16,6 @@ test('Method translates every caption and isolates a formula failure from later 
  const equations=formulas.map(tex=>({dataset:{tex},classList:{add(){}}}));const nav={},link={},print={};let calls=0;
  const context={URLSearchParams,location:{search:'?embedded=1&lang=en'},window:{print(){}},katex:{render(tex,el){calls++;if(calls===2)throw Error('one failed equation');el.rendered=true;}},document:{documentElement:{},querySelectorAll:q=>q==='[data-method-language]'?buttons:q==='[data-en]'?translated:equations,querySelector:q=>q==='nav'?nav:link,getElementById:()=>print}};
  vm.runInNewContext(script,context);assert.equal(nav.hidden,true);assert.equal(context.document.documentElement.lang,'en');assert.equal(calls,14);assert.equal(equations.at(-1).rendered,true);assert.ok(print.onclick);
- assert.ok(translated.every(el=>!/[\u3400-\u9fff]/.test(el.textContent)));assert.equal(buttons[0].textContent,'ZH');
+ assert.ok(translated.every(el=>!/[\u3400-\u9fff]/.test(el.textContent)));assert.equal(buttons[0].textContent,'中');
  buttons[0].onclick();assert.equal(context.document.documentElement.lang,'zh-CN');assert.ok(translated.some(el=>/[\u3400-\u9fff]/.test(el.textContent)));assert.equal(link.href,'/?lang=zh');
 });

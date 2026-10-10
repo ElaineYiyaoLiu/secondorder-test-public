@@ -12,20 +12,20 @@ import {plainReading,homologyReading,candleContext} from '../public/plain-readin
 const source=readFileSync(new URL('../public/app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,'');
 function workspace(){
  const elements=new Map();
- const get=id=>{if(!elements.has(id))elements.set(id,{id,hidden:id==='data-workspace',dataset:{},value:id==='history-years'?'3':'',checked:id==='provider-basket',disabled:false,textContent:'',innerHTML:'',querySelectorAll:()=>[],setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];},toggleAttribute(k,v){this[k]=v;},addEventListener(){},click(){this.onclick?.();}});return elements.get(id);};
+ const get=id=>{if(id==='prepared-pdf')return null;if(!elements.has(id))elements.set(id,{id,parentElement:{before(){},after(){},append(){}},before(){},after(){},append(node){node.parentElement=this;},hidden:id==='data-workspace',dataset:{},value:id==='history-years'?'3':'',checked:id==='provider-basket',disabled:false,textContent:'',innerHTML:'',querySelectorAll:()=>[],setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];},toggleAttribute(k,v){this[k]=v;},addEventListener(){},click(){this.onclick?.();}});return elements.get(id);};
  let resolve,reject,request;
  const pending=new Promise((a,b)=>{resolve=a;reject=b;});
  class Worker{terminate(){this.stopped=true;}postMessage(data){queueMicrotask(()=>{if(this.stopped)return;const e=makeEngine(data.dataset,data.symbol);this.onmessage?.({data:{type:'all',result:{analysis:e.analyze(data.start,data.end),homology:e.homology(data.start,data.end)}}});});}}
- const context=vm.createContext({Worker,researchContext(){},renderValidationPlots(){},researchExport(){return null;},document:{getElementById:get,querySelectorAll:()=>[],documentElement:{}},location:{search:'',href:'https://example.test/'},URL,URLSearchParams,stocks,candleTranslation,interactiveDataset,validateDataset,instrument,makeEngine,GEOMETRIES,ANALYSIS_IDS,mean,dataCoverage,viewport,panViewport,zoomViewport,geometryEvidence,presentEvidence,plainReading,homologyReading,candleContext,fetch:url=>{request=url;return pending;}});
+ const context=vm.createContext({Worker,researchContext(){},renderValidationPlots(){},researchExport(){return null;},document:{getElementById:get,createComment:()=>({after(node){node.parentElement=get('data-workspace');}}),querySelectorAll:()=>[],documentElement:{}},location:{search:'',href:'https://example.test/'},URL,URLSearchParams,stocks,candleTranslation,interactiveDataset,validateDataset,instrument,makeEngine,GEOMETRIES,ANALYSIS_IDS,mean,dataCoverage,viewport,panViewport,zoomViewport,geometryEvidence,presentEvidence,plainReading,homologyReading,candleContext,fetch:url=>{request=url;return pending;}});
  vm.runInContext(source,context);
  return {get,context,resolve,reject,get request(){return request;}};
 }
 const settle=()=>new Promise(resolve=>setImmediate(resolve));
 test('startup requests the real three-year basket and hides all synthetic values until success',async()=>{
  const w=workspace();assert.match(w.request,/symbol=NVDA&basket=1&years=3/);
- assert.equal(w.get('data-workspace').hidden,true);assert.equal(w.get('price').textContent,'');assert.equal(w.get('find').disabled,true);
+ assert.equal(w.get('model-preview').hidden,false);assert.match(w.get('analysis-cards').innerHTML,/Asset relationships/);assert.equal(w.get('research-structure').parentElement,w.get('model-preview'));assert.equal(w.get('data-workspace').hidden,true);assert.equal(w.get('price').textContent,'');assert.equal(w.get('find').disabled,true);
  const dataset=interactiveDataset();w.resolve({ok:true,json:async()=>({source:'marketstack',dataset,adjustment:'all'})});await settle();
- assert.equal(w.get('data-workspace').hidden,false);assert.equal(w.get('find').disabled,false);assert.match(w.get('data-summary').textContent,/Marketstack/);assert.doesNotMatch(w.get('data-summary').textContent,/Synthetic/);assert.ok(w.get('price').textContent);
+ assert.equal(w.get('model-preview').hidden,true);assert.equal(w.get('research-structure').parentElement,w.get('data-workspace'));assert.equal(w.get('data-workspace').hidden,false);assert.equal(w.get('find').disabled,false);assert.match(w.get('data-summary').textContent,/Marketstack/);assert.doesNotMatch(w.get('data-summary').textContent,/Synthetic/);assert.ok(w.get('price').textContent);
 });
 test('provider failure leaves the workspace empty and calculations disabled without demo fallback',async()=>{
  const w=workspace();w.resolve({ok:false,json:async()=>({code:'provider-quota',error:'quota'})});await settle();

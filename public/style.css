@@ -78,3 +78,6 @@ header .brand.so-brand .so-brand-copy{white-space:normal;min-width:0;line-height
 @media(max-width:640px){header,header.topbar{height:auto;flex-wrap:wrap;gap:10px}header .brand.so-brand{width:100%;max-width:100%}}
 
 header .brand.so-brand .so-brand-copy .so-construction{font-family:inherit;font-size:.7em;font-weight:400;letter-spacing:inherit;margin:0}
+
+@media(min-width:1100px){.portfolio-intro h2,.portfolio-intro .hero-description{white-space:nowrap;font-size:clamp(13px,1.18vw,18px)}.portfolio-intro h2{font-size:clamp(20px,2vw,28px)}}
+#model-preview{margin-top:20px}#model-preview .geometry-card{margin-bottom:16px}
